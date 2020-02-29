@@ -1,9 +1,9 @@
 # SoalShiftSISOP20_modul1_F01
 
 ## file .sh
-- [Soal 1](soal1/soal1.sh)
-- [Soal 2](soal1/soal2.sh)
-- [Soal 3](soal3/soal3.sh)
+- [Soal 1](soal1/)
+- [Soal 2](soal2/)
+- [Soal 3](soal3/)
 
 ## Soal no. 1
 
