@@ -8,9 +8,3 @@ done
 
 # b
 # 5 6-23/8 * * 0-5 cd /home/kaori02/SoalShiftSISOP20_modul1_F01/soal3/; bash soal3.sh
-
-# uji coba
-# */5 6-23 * * 0-5 cd /home/kaori02/repository/kuliah/SMT_4/"SISOP F"/"Modul 1"; bash soal3.sh
-
-# c
-grep "Location" wget.log > location.log
