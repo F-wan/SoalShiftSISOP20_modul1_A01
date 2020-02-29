@@ -325,10 +325,41 @@ dengan format filename "kenangan_nomor" (contoh: kenangan_252, kenangan_253).
 Setelah tidak ada gambar di ​ current directory ​ , maka lakukan backup seluruh log menjadi
 ekstensi ".log.bak"​ .
 
-#### PENJELASAN
 ```sh
-# c
-grep "Location" wget.log > location.log
+#!/bin/bash
+mkdir duplicate kenangan
+
+grep "Location: " wget.log > location.log
+
+awk '
+{
+  printf("%s %03d\n", $2, a + 1)
+  a++
+}' location.log | sort -g > test
+
+awk '
+{
+  idx = $2 + 0
+  if(loc == $1)
+    call = "mv pdkt_kusuma_"idx " duplicate/duplicate_"idx
+  else
+  {
+    loc = $1
+    call = " mv pdkt_kusuma_"idx " kenangan/kenangan_"idx
+  }
+  system(call)
+}' test
+
+rm test
+
+mv location.log location.log.bak
+mv wget.log wget.log.bak
 ```
-- command diatas digunakan untuk membuat list lokasi file yang ada pada `wget.log`
-- Karena keterbatasan waktu,  soal c belum sempat diselesaikan
+#### PENJELASAN
+- `mkdir duplicate kenangan` digunakan untuk membuat folder bernama **duplicate** dan **kenangan**
+- `grep "Location: " wget.log > location.log` digunakan untuk membuat list lokasi file yang ada pada `wget.log` dan kemudian dimasukkan ke dalam file `location.log`
+- Kemudian pada file `location.log` dilakukan penomoran untuk setiap nama asli file untuk dijadikan semacam indeks. kemudian berdasarkan indeks tersebut, isi dari `location.log` diurutkan dengan `sort -g` kemudian dimasukkan ke file bernama `test`
+- Kemudian dari file test dilakukan pemeriksaan apakah nama tiap file sama. apabila sama, file paling baru dipindahkan ke folder `duplicate`.
+- Kemudian semua file yang berbeda satu sama lain akan masuk ke folder `kenangan`
+- Hapus file `test`
+- ganti nama semua file `.log` menjadi `.log.bak`
