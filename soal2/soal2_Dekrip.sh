@@ -16,5 +16,3 @@ echo $n
 lama=$1
 echo $baru
 mv $lama.txt $baru.txt
-
-

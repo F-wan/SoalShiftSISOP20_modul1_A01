@@ -244,18 +244,24 @@ nama file bisa kembali.
 HINT: enkripsi yang digunakan adalah caesar cipher.
 *Gunakan Bash Script
 
+### Soal A
 ```sh
 #!/bin/bash
 
-while true; do 
-	kode=$(head /dev/urandom | tr -dc A-Za-z0-9 | fold -w 28 | head -n 1)
+
+while true; do  
+	kode=$(head /dev/urandom | tr -dc A-Za-z0-9 | fold -w 3 | head -n 1)
+	while [[ !($kode =~ [[:upper:]]) || !($kode =~ [[:lower:]]) || !($kode =~ [0-9]) ]]
+		do 
+		kode=$(head /dev/urandom | tr -dc A-Za-z0-9 | fold -w 3 | head -n 1)
+	done
 	read -r -p "Nama file = " file
 	if [[ ($file =~ [0-9]) || ($file == *['!'@#\$%^\&*()_+]*) ]];then 
 		echo "Only Alphabet Input"
 		break
 	else 
 		filetx="$file.txt"
-		echo "$kode" > "$file"
+		echo "$kode" > "$file.txt"
 		break
 	fi
 done 
@@ -264,6 +270,54 @@ done
 #### PEMBAHASAN
 - Menerima hanya alphabet saja , If nya berfungsi untuk menyaring jika ada angka ataupun charachter spesial
 - Karena keterbatasan waktu,  soal 2 belum sempat diselesaikan
+
+### Soal B
+```sh
+#!/bin/bash 
+
+
+time=$(date +"%H")
+echo $time
+
+lama=$1
+n=$time
+echo $n 
+ for (( n=1 ; $n<=$time; n++ ))
+	do
+		baru=$(echo $lama | tr '[A-Za-z]' '[B-ZAb-za]')
+		lama=$baru
+	done
+lama=$1
+
+mv $lama.txt $baru.txt
+
+```
+#### PEMBAHASAN
+- Di program ini akan di loop sesuai jam dimana file itu di enkripsi
+- ketika enkripsi file dilakukan pada jam 1 maka akan dilakukan enkripsi 1 kali . Dimana enkripsi yang dilakukan adalah dari "a" menjadi "b" dstnya.
+- Jika dilakukan pada jam 20 atau jam 8 malem maka fungsi loop akan bekerja dan melakukan enkripsi ebanyak 20 kali
+
+### Soal C
+```sh
+#!/bin/bash 
+
+
+time=$(date -r $1.txt "+%H")
+echo $time
+
+lama=$1
+echo $lama
+n=$time
+echo $n 
+ for (( n=1 ; $n<=$time; n++ ))
+	do
+		baru=$(echo $lama | tr '[B-ZAb-za]' '[A-Za-z]')
+		lama=$baru
+	done
+lama=$1
+echo $baru
+mv $lama.txt $baru.txt
+```
 
 ## Soal no. 3
 1 tahun telah berlalu sejak pencampakan hati Kusuma. Akankah sang pujaan hati
